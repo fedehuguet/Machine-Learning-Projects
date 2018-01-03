@@ -60,7 +60,7 @@ api = tweepy.API(auth)
 #for tweet in tweepy.Cursor(api.user_timeline).items():
     #process_or_store(tweet._json)
 
-with open('mytweets.json', 'r') as f:
+with open('mytweets.json', 'r') as f: #Save tweets into a file.json because Twitter only allows certain querys per 15 min period
     for line in f: #for every tweet in the file
         tweet = json.loads(line) #Load as python dictionary
         tokens = preprocess(tweet['text'])
