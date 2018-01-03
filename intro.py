@@ -15,7 +15,7 @@ df = quandl.get('WIKI/GOOGL')
 
 df = df[['Adj. Open', 'Adj. High','Adj. Low','Adj. Close','Adj. Volume']]
 
-df['HL_PCT'] = (df['Adj. High']-df['Adj. Close'])/ df['Adj. Close']*100 #Margin of volatility
+df['HL_PCT'] = (df['Adj. High']-df['Adj. Low'])/ df['Adj. Low']*100 #Margin of volatility
 
 df['PCT_change'] = (df['Adj. Close']-df['Adj. Open'])/ df['Adj. Open']*100 #Margin of old vs new
 
@@ -24,7 +24,7 @@ df = df[['Adj. Close', 'HL_PCT','PCT_change','Adj. Volume']] #Volume: How many s
 forecast_col = 'Adj. Close'
 df.fillna(-9999, inplace=True)
 
-forecast_out = int(math.ceil(0.01*len(df))) #Try to predict out of 1% of the data, 10 days in the future aprox.
+forecast_out = int(math.ceil(0.01*len(df))) #Try to predict out of 1% of the data.
 print(forecast_out)
 df['label'] = df[forecast_col].shift(-forecast_out)
 
@@ -44,7 +44,7 @@ clf = LinearRegression(n_jobs=-1)
 clf.fit(x_train, y_train)
 accuracy = clf.score(x_test, y_test)
 #print(accuracy)
-forecast_set = clf.predict(x_lately) #doing a prediction with a classifier is easy
+forecast_set = clf.predict(x_lately) #Build prediction using classifier
 
 print(forecast_set, accuracy, forecast_out)
 
